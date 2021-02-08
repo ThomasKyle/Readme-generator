@@ -6,32 +6,34 @@ const util = require('util')
 const generateMarkdown = require('./utils/generateMarkdown');
 const { rejects } = require('assert');
 const { resolve } = require('path');
+const Choice = require('inquirer/lib/objects/choice');
 // TODO: Create an array of questions for user input
 const questions = [
     {
     type: 'input',
-    name: 'name',
-    message: 'Whats the name of your Project? (Required)',
-    validate: nameInput => {
-        if (nameInput) {
+    name: 'title',
+    message: 'Whats the title of your Project? (Required)',
+    validate: titleInput => {
+        if (titleInput) {
             return true;
         } else {
-            console.log('Please Enter a Project name! (Required)');
-            return false
+            console.log('Please Enter a Project title! (Required)');
+            return false;
         }
     } 
 }, 
 {
-    type: 'confirm',
-    name: 'confirm',
-    message: 'Would you like to enter a description for your ReadMe?',
-    default: true
-},
-{
     type: 'input',
-    name: 'about',
-    message: 'Provide some information about your project:',
-    when: ({ confirmAbout }) => confirmAbout
+    name: 'About',
+    message: 'Please describe your Readme (Required)',
+    validate: aboutInput => {
+        if (aboutInput) {
+            return true;
+        } else {
+            console.log('Please decsribe your Project! (Required)');
+            return false;
+        }
+    }
 },
 {
     type: 'input',
@@ -44,9 +46,10 @@ const questions = [
     message: 'Give instructions on how to use you Project'
 },
 {
-    type: 'input',
+    type: 'list',
     name: 'license',
-    message: 'What licenses do you have?'
+    message: 'What licenses do you have?',
+    choices: ['Apache 2.0', 'MIT', 'IBM', 'BSD-3 Clause license', 'None']
 },
 {
     type: 'input',
